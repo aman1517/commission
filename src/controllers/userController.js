@@ -72,7 +72,7 @@ const createUsers = async (req, res) => {
       data=[data]
     }
 
-    console.log(data,"data");
+   
     
     const uniqueFields = ["email", "userName", "phone"]; // fields that must be unique
 
