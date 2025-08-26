@@ -2,16 +2,16 @@
   "name": "my-backend-project",
   "version": "1.0.0",
   "description": "",
-    "main": "server.js",
+  "main": "server.js",
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-  "type": "git",
-  "url": "https://github.com/aman1517/commission"
-},
+    "type": "git",
+    "url": "https://github.com/aman1517/commission"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
