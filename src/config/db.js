@@ -4,7 +4,7 @@ const connectDB = async () => {
    
     
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URL);
+    const conn = await mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
     
   } catch (err) {
     console.error(`Error: ${err.message}`);
