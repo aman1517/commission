@@ -9,11 +9,8 @@ const User = require("../models/userModel");
 // };
 const getUsers = async (req, res) => {
   try {
-    const { userName,password } = req.query;
-    const filter = {};
-
-   
-
+    const { userName,password,limt,seachData,status } = req.query;
+    let filter = {};
     if(userName==process.env.AccountsUserName  && password==process.env.AccountPassword){
 
       res.json({isLogin:"Account",status:true})
@@ -24,12 +21,26 @@ const getUsers = async (req, res) => {
       return;
 
     }
+    let query=false
 
     if (userName) filter.userName = userName; // match exact username
-
-    const users = await User.find(filter);
- 
-    res.json(users);
+    if(status && status!=='undefined' && status!=="null") filter.status=status
+    if(seachData && seachData!=='undefined' && seachData!=='null'){
+     query = {
+       $or: [
+      { name:   { $regex: seachData, $options: "i" } },
+      { email:  { $regex: seachData, $options: "i" } },
+      { phone:  { $regex: seachData, $options: "i" } },
+      { userName: { $regex: seachData, $options: "i" } }
+    ]
+     };
+       
+    }
+       let limtData=limt?limt:10
+        const users = await User.find(query?query:filter).sort({ createdAt: -1 }).limit(limtData);
+        const totalPosp= await User.countDocuments()
+      
+    res.json({users:users,totalPosp:totalPosp});
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

@@ -91,7 +91,7 @@ const getCommissions = async (req, res) => {
   
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
-    const commissions = await Commission.find(filter)
+    const commissions = await Commission.find(filter).sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit));
 

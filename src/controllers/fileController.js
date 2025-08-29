@@ -3,7 +3,6 @@ const fs = require('fs');
 
 // POST /api/files
 exports.uploadFile = async (req, res) => {
-    console.log(req,"req");
     
   try {
     // If no file is provided
