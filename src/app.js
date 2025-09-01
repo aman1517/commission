@@ -11,7 +11,10 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type"]
+}));
 app.use(express.json({ limit: "5mb" }));
 app.use(express.json()); // ✅ This parses incoming JSON bodies
 
