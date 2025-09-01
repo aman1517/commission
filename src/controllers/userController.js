@@ -9,18 +9,9 @@ const User = require("../models/userModel");
 // };
 const getUsers = async (req, res) => {
   try {
-    const { userName,password,limt,seachData,status } = req.query;
+    const {userName,limt,seachData,status } = req.query;
     let filter = {};
-    if(userName==process.env.AccountsUserName  && password==process.env.AccountPassword){
-
-      res.json({isLogin:"Account",status:true})
-      return;
-
-    }else if(userName==process.env.AdminUserName && password==process.env.AdminPassword){
-       res.json({isLogin:"Admin",status:true})
-      return;
-
-    }
+    
     let query=false
 
     if (userName) filter.userName = userName; // match exact username
@@ -45,6 +36,49 @@ const getUsers = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+const loginDetails=async(req,res)=>{
+  try {
+    const { userName, password } = req.body;
+
+    if (!userName || !password) {
+      return res.status(400).json({ message: "Username and password are required" });
+    }
+
+    if(userName==process.env.AccountsUserName  && password==process.env.AccountPassword){
+
+      res.json({isLogin:"Account",status:true,message: "Login successful",})
+      return;
+
+    }else if(userName==process.env.AdminUserName && password==process.env.AdminPassword){
+       res.json({isLogin:"Admin",status:true,message: "Login successful",})
+      return;
+
+    }
+
+    // Check if user exists
+    const user = await User.findOne({ userName, password });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
+
+    // Success (don’t return password!)
+    res.json({
+      message: "Login successful",
+      user: {
+        id: user._id,
+        userName: user.userName,
+        email: user.email,
+        status: user.status
+      }
+    });
+
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+}
 
 
 
@@ -171,4 +205,4 @@ const updateUser = async (req, res) => {
   }
 };
 
-module.exports = { getUsers, updateUser,createUsers };
+module.exports = { getUsers, updateUser,createUsers,loginDetails };

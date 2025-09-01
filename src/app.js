@@ -19,6 +19,7 @@ app.use(express.json()); // ✅ This parses incoming JSON bodies
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/commissions", require("./routes/commissionRoutes"));
 app.use("/api/files", require("./routes/fileRoutes"));
+app.use("/api/login",require('./routes/userRoutes'))
 
 // Error handler
 app.use(errorHandler);
